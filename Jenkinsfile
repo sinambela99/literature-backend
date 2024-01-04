@@ -26,6 +26,7 @@ pipeline {
                 sshagent([credential]) {
                     sh '''ssh -o StrictHostKeyChecking=no ${server} << EOF 
                     cd ${directory}
+                    docker compose  up -d database
                     docker build -t ${image}:env.BUILD_NUMBER .
                     exit
                     EOF'''
