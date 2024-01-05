@@ -50,7 +50,7 @@ build_app:
     - ssh $SERVER
      "cd $DIR_BE;
      docker rmi $IMAGES_BE;
-     docker compose up -d db;
+     docker compose up -d database;
      docker build -t $IMAGES_BE .;
      docker images;
      docker compose up -d;
