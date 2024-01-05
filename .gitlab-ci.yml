@@ -27,7 +27,7 @@ variables:
   IMAGES_BE: 'ian/backend:1.0'
   DOMAIN_BE: 'https://api.sinambela.studentdumbways.my.id'
  
-pull_be:
+pull_backend:
   stage: pull_be
   image: docker
   services:
