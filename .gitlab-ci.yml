@@ -28,7 +28,7 @@ variables:
   DOMAIN_BE: 'https://api.sinambela.studentdumbways.my.id'
  
 pull_backend:
-  stage: pull_be
+  stage: pull_backend
   image: docker
   services:
     - docker:dind
