@@ -27,7 +27,7 @@ pipeline {
                     sh '''ssh -o StrictHostKeyChecking=no ${server} << EOF 
                     cd ${directory}
                     docker compose  up -d database
-                    docker build -t ${image}:env.BUILD_NUMBER .
+                    docker build -t ${image}:${BUILD_NUMBER} .
                     exit
                     EOF'''
                 }
@@ -38,7 +38,7 @@ pipeline {
                 sshagent([credential]) {
                     sh '''ssh -o StrictHostKeyChecking=no ${server} << EOF 
                     cd ${directory}
-                    docker run --name test_fe -p 3000:3000 -d ${image}:latest
+                    docker run --name test_fe -p 3000:3000 -d ${image}:${BUILD_NUMBER}
                     wget --no-verbose --tries=1 --spider localhost:3000
                     docker stop test_fe
                     docker rm test_fe
@@ -54,6 +54,7 @@ pipeline {
             steps {
                 sshagent([credential]) {
                     sh '''ssh -o StrictHostKeyChecking=no ${server} << EOF
+                    sed -i '22c\    image: ${image}:${BUILD_NUMBER}' docker-compose.yaml
                     docker compose up -d 
                     cd ${directory}
                     exit
@@ -66,7 +67,7 @@ pipeline {
                 sshagent([credential]) {
                     sh '''ssh -o StrictHostKeyChecking=no ${server} << EOF 
                     cd ${directory}
-                    docker push ${image}:latest
+                    docker push ${image}:${BUILD_NUMBER
                     exit
                     EOF'''
                 }
